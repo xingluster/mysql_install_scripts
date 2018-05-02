@@ -1,0 +1,1 @@
+start group_replication;

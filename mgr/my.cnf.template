@@ -1,0 +1,40 @@
+[mysqld]
+user = mysql
+port = {{client_port}}
+
+server_id = {{server_id}}
+loose-group_replication_member_weight = {{weight}}
+
+sync_binlog = 1
+performance_schema = ON
+innodb_flush_log_at_trx_commit = 1
+innodb_buffer_pool_size = 512M
+
+gtid_mode = ON
+enforce_gtid_consistency = ON
+master_info_repository = TABLE
+relay_log_info_repository = TABLE
+binlog_checksum = NONE
+log_slave_updates = ON
+log_bin = binlog
+binlog_format= ROW
+
+
+transaction_write_set_extraction = XXHASH64
+loose-group_replication_group_name = '{{uuid}}'
+loose-group_replication_start_on_boot = off
+loose-group_replication_local_address = '{{curr_ip}}:{{mgr_port}}'
+loose-group_replication_group_seeds ='{{group_replication_group_seeds}}'
+loose-group_replication_bootstrap_group = off
+loose-group_replication_ip_whitelist = "{{group_replication_ip_whitelist}}"
+loose-group_replication_single_primary_mode = off
+
+slave_parallel_workers = 4
+slave_parallel_type = LOGICAL_CLOCK
+slave_preserve_commit_order = 1
+
+basedir = {{mysql_install_base}}
+datadir = {{data_dir}}
+socket = {{data_dir}}/mysql.sock
+log-error = {{data_dir}}/mysqld.log
+pid-file = {{data_dir}}/mysqld.pid
